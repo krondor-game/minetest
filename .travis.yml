@@ -1,0 +1,34 @@
+os: osx
+osx_image: xcode8.2 # 10.12
+language: cpp
+
+script:
+  - git remote add upstream https://github.com/minetest/minetest -t master -f
+  - git remote set-url origin https://${GITHUB_OAUTH_TOKEN}@github.com/krondor-game/minetest
+  - git remote set-branches --add origin master
+  - git fetch origin
+  - git push origin upstream/master:master
+
+before_deploy:
+  - git checkout origin/master
+  - brew update
+  - brew install freetype gettext hiredis irrlicht jpeg leveldb libogg libvorbis luajit
+  - git clone --depth=1 https://github.com/minetest/minetest_game games/minetest_game
+  - sed -i.bak 's/-ffast-math//' src/CMakeLists.txt # https://github.com/minetest/minetest/issues/4274
+  - cmake
+    -DCMAKE_BUILD_TYPE=Release -DENABLE_FREETYPE=1 -DENABLE_LEVELDB=1 -DENABLE_GETTEXT=1
+    -DENABLE_REDIS=1 -DBUILD_SERVER=0 -DCUSTOM_GETTEXT_PATH=/usr/local/opt/gettext
+    -DCMAKE_EXE_LINKER_FLAGS="-L/usr/local/lib"
+  - make -j4 package
+  - export TRAVIS_TAG=$(date +'%Y-%m-%d')
+
+deploy:
+  provider: releases
+  name: ${TRAVIS_TAG}
+  api_key: ${GITHUB_OAUTH_TOKEN}
+  file_glob: true
+  file: "*.zip"
+  skip_cleanup: true
+  overwrite: true
+  on:
+    branch: builds-osx
