@@ -6,7 +6,7 @@ install:
   - git remote add upstream https://github.com/minetest/minetest -t master -f
   - git checkout upstream/master
   - brew update
-  - brew install freetype gettext hiredis irrlicht jpeg leveldb libogg libvorbis luajit
+  - brew install freetype gettext hiredis irrlicht leveldb libogg libvorbis luajit
   - brew cask install xquartz
   - git clone --depth=1 https://github.com/minetest/minetest_game games/minetest_game
 
