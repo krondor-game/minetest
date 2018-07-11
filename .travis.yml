@@ -7,7 +7,6 @@ install:
   - git checkout upstream/master
   - brew update
   - brew install freetype gettext hiredis irrlicht leveldb libogg libvorbis luajit
-  - brew cask install xquartz
   - git clone --depth=1 https://github.com/minetest/minetest_game games/minetest_game
 
 script:
