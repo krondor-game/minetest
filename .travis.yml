@@ -32,5 +32,6 @@ deploy:
   file: "*.zip"
   skip_cleanup: true
   overwrite: true
+  target_commitish: master
   on:
     branch: builds-osx
