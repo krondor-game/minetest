@@ -6,14 +6,14 @@ install:
   - git remote add upstream https://github.com/minetest/minetest -t master -f
   - git checkout upstream/master
   - brew update
-  - brew install freetype gettext hiredis irrlicht leveldb libogg libvorbis luajit
+  - brew install freetype gettext irrlicht libogg libvorbis luajit
   - git clone --depth=1 https://github.com/minetest/minetest_game games/minetest_game
 
 script:
   - cmake
     -DVERSION_EXTRA=dev-$(sw_vers -productVersion)
-    -DCMAKE_BUILD_TYPE=Release -DENABLE_FREETYPE=1 -DENABLE_LEVELDB=1 -DENABLE_GETTEXT=1
-    -DENABLE_REDIS=1 -DBUILD_SERVER=0 -DCUSTOM_GETTEXT_PATH=/usr/local/opt/gettext
+    -DCMAKE_BUILD_TYPE=Release -DENABLE_FREETYPE=1 -DENABLE_LEVELDB=0 -DENABLE_GETTEXT=1
+    -DENABLE_REDIS=0 -DBUILD_SERVER=0 -DCUSTOM_GETTEXT_PATH=/usr/local/opt/gettext
     -DCMAKE_EXE_LINKER_FLAGS="-L/usr/local/lib"
   - make package
 
