@@ -1,11 +1,20 @@
 language: cpp
 os: osx
 
+addons:
+  homebrew:
+    update: true
+    packages:
+      - freetype
+      - gettext
+      - irrlicht
+      - libogg
+      - libvorbis
+      - luajit
+
 install:
   - git remote add upstream https://github.com/minetest/minetest -t master -f
   - git checkout upstream/master
-  - brew update
-  - brew install freetype gettext irrlicht libogg libvorbis luajit
   - git clone --depth=1 https://github.com/minetest/minetest_game games/minetest_game
 
 script:
@@ -26,10 +35,10 @@ before_deploy:
 deploy:
   provider: releases
   name: ${TRAVIS_TAG}
-  api_key: ${GITHUB_OAUTH_TOKEN}
+  token: ${GITHUB_OAUTH_TOKEN}
+  skip_cleanup: true
   file_glob: true
   file: "*.zip"
-  skip_cleanup: true
   overwrite: true
   target_commitish: master
   on:
