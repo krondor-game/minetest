@@ -3,7 +3,7 @@ os: osx
 
 addons:
   homebrew:
-    update: true
+    update: false
     packages:
       - freetype
       - gettext
